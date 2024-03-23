@@ -1,10 +1,12 @@
 // models/Metric.js
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const metricSchema = new mongoose.Schema({
-  // Define your schema fields here
-  // Example:
+  date: {
+    type: Date,
+    required: true,
+  },
   pageViews: {
     type: Number,
     required: true,
@@ -19,6 +21,6 @@ const metricSchema = new mongoose.Schema({
   },
 });
 
-const Metric = mongoose.model("Metric", metricSchema);
+const Metric = mongoose.model('Metric', metricSchema);
 
 module.exports = Metric;
