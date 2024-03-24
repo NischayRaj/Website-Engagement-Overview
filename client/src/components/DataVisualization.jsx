@@ -3,6 +3,7 @@ import { MetricsContext } from '../context/MetricsContext';
 import { Bar, Pie, Line } from 'react-chartjs-2';
 import axios from 'axios';
 import Chart from 'chart.js/auto';
+import _ from 'lodash';
 
 
 const DataVisualization = () => {
@@ -76,10 +77,43 @@ const DataVisualization = () => {
     }
   };
 
+
+  const sortDataByDate = () => {
+    // Clone the chartData object
+    const sortedChartData = _.cloneDeep(chartData);
+  
+    // Sort the labels array using lodash for each dataset
+    _.forEach(sortedChartData, (chart) => {
+      if (chart && chart.labels) {
+        chart.labels = _.sortBy(chart.labels, date => new Date(date));
+      }
+    });
+  
+    // Sort the data arrays for each dataset based on the sorted labels
+    _.forEach(sortedChartData, (chart) => {
+      if (chart && chart.datasets) {
+        chart.datasets.forEach(dataset => {
+          dataset.data = _.sortBy(dataset.data, dataPoint => dataPoint);
+        });
+      }
+    });
+  
+    console.log(sortedChartData)
+    // Set the sorted chart data
+    setChartData(sortedChartData);
+  };
+
+  
+  
+    
+    
+  
+
   return (
     <div>
       {chartData ? (
         <div>
+          <button onClick={sortDataByDate}>Sort by Date</button>
           <Bar data={chartData.pageViewsChart} />
           <Pie data={chartData.bounceRateChart} />
           <Line data={chartData.avgSessionDurationChart} />
