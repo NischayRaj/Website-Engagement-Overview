@@ -19,7 +19,15 @@ const DataVisualization = () => {
       const data = response.data;
 
       // Extracting data for charts
-      const labels = data.map(metric => metric.date);
+      const labels = data.map(metric => {
+        // Check if metric.date exists before splitting
+        if (metric.date) {
+          // Extract only the date part from the full date-time string
+          const dateParts = metric.date.split('T');
+          return dateParts[0]; // Extracted date part
+        }
+        return ''; // Return an empty string if date is undefined
+      });
       const pageViews = data.map(metric => metric.pageViews);
       const bounceRates = data.map(metric => metric.bounceRate);
       const avgSessionDurations = data.map(metric => metric.averageSessionDuration);
