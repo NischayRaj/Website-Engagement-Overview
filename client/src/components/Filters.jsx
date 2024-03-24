@@ -1,18 +1,18 @@
-import React, { useContext } from 'react';
-import { MetricsContext } from '../context/MetricsContext';
+// import React, { useContext } from 'react';
+// import { MetricsContext } from '../context/MetricsContext';
 
-const Filters = () => {
-  const { fetchData } = useContext(MetricsContext);
+// const Filters = () => {
+//   const { fetchData } = useContext(MetricsContext);
 
-  const handleRefresh = () => {
-    fetchData();
-  };
+//   const handleRefresh = () => {
+//     fetchData();
+//   };
 
-  return (
-    <div>
-      <button onClick={handleRefresh}>Refresh Data</button>
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <button onClick={handleRefresh}>Refresh Data</button>
+//     </div>
+//   );
+// };
 
-export default Filters;
+// export default Filters;

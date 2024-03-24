@@ -1,14 +1,17 @@
 import React from 'react';
 import DataVisualization from './DataVisualization';
-import Filters from './Filters';
+// import Filters from './Filters';
+import { Typography, Box } from '@mui/material';
 
 const Dashboard = () => {
   return (
-    <div>
-      <h1>Website Engagement Overview</h1>
-      <Filters />
+    <Box p={4}>
+      <Typography variant="h1" gutterBottom>
+        Website Engagement Overview
+      </Typography>
+      {/* <Filters /> */}
       <DataVisualization />
-    </div>
+    </Box>
   );
 };
 
