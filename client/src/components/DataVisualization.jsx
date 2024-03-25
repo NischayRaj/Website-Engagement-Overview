@@ -198,8 +198,11 @@ const DataVisualization = () => {
             Sort by Date
           </Button>
             <Bar data={chartData.pageViewsChart} options={chartOptions} className="chart-item" />
+            <br/>
             <Pie data={chartData.bounceRateChart} options={pieChartOptions} className="chart-item" />
+            <br/>
             <Line data={chartData.avgSessionDurationChart} options={chartOptions} className="chart-item" />
+            <br/>
         </Box>
       ) : (
         <div className="loading-message">Loading...</div>
