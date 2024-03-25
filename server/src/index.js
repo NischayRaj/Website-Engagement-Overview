@@ -2,16 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors"); // Import cors middleware
 const metricsRouter = require("./routes/metricsRouter");
+require("dotenv").config({ path: "src/.env" });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const mongoURI = "mongodb+srv://Web-Overview:XboX21Me113@cluster0.qos0ya2.mongodb.net/Web-overview?retryWrites=true&w=majority&appName=Cluster0"; // Change this to your MongoDB URI
 
 // Connect to MongoDB
 mongoose
-  .connect(mongoURI)
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Failed to connect to MongoDB:", err));
+
 
 // Middleware
 app.use(express.json());

@@ -29,7 +29,7 @@ const DataVisualization = () => {
           // return dateParts[0];
           const newData = dateParts[0];
           const newdateParts = newData.split('-');
-          const formattedDate = `${newdateParts[2]}-${newdateParts[1]}-${newdateParts[0].slice(2)}`;
+          const formattedDate = `${newdateParts[2]}-${newdateParts[1]}-${newdateParts[0]}`;
           return formattedDate;
         }
         return ''; // Return an empty string if date is undefined
@@ -87,42 +87,59 @@ const DataVisualization = () => {
     // Clone the chartData object
     const sortedChartData = _.cloneDeep(chartData);
   
-    // Sort the labels array using lodash for each dataset
+    // Create a mapping between labels and their corresponding data points for each dataset
+    const originalDataMaps = {};
     _.forEach(sortedChartData, (chart) => {
-      if (chart && chart.labels) {
-          chart.labels.sort((a, b) => {
-              const [dayA, monthA, yearA] = a.split('-').map(Number);
-              const [dayB, monthB, yearB] = b.split('-').map(Number);
-              
-              // First, compare years
-              if (yearA !== yearB) {
-                  return yearA - yearB;
-              }
-              // If years are equal, compare months
-              if (monthA !== monthB) {
-                  return monthA - monthB;
-              }
-              // If months are equal, compare days
-              return dayA - dayB;
+      if (chart && chart.labels && chart.datasets) {
+        chart.datasets.forEach((dataset) => {
+          dataset.data.forEach((dataPoint, index) => {
+            if (!originalDataMaps[dataset.label]) {
+              originalDataMaps[dataset.label] = {};
+            }
+            originalDataMaps[dataset.label][chart.labels[index]] = dataPoint;
           });
-      }
-  });
-  
-  
-    // Sort the data arrays for each dataset based on the sorted labels
-    _.forEach(sortedChartData, (chart) => {
-      if (chart && chart.datasets) {
-        chart.datasets.forEach(dataset => {
-          // console.log(dataset.data);
-          dataset.data = _.sortBy(dataset.data, dataPoint => dataPoint);
         });
       }
     });
   
+    // Sort the labels array using lodash for each dataset
+    _.forEach(sortedChartData, (chart) => {
+      if (chart && chart.labels && chart.datasets) {
+        chart.labels.sort((a, b) => {
+          const [dayA, monthA, yearA] = a.split('-').map(Number);
+          const [dayB, monthB, yearB] = b.split('-').map(Number);
+  
+          // First, compare years
+          if (yearA !== yearB) {
+            return yearA - yearB;
+          }
+          // If years are equal, compare months
+          if (monthA !== monthB) {
+            return monthA - monthB;
+          }
+          // If months are equal, compare days
+          return dayA - dayB;
+        });
+      }
+    });
+  
+    // Rearrange the data arrays for each dataset based on the sorted labels
+    _.forEach(sortedChartData, (chart) => {
+      if (chart && chart.labels && chart.datasets) {
+        chart.datasets.forEach((dataset) => {
+          dataset.data = chart.labels.map((label) => {
+            // Get the original data point associated with the sorted label and dataset
+            return originalDataMaps[dataset.label][label];
+          });
+        });
+      }
+    });
     console.log(sortedChartData)
     // Set the sorted chart data
     setChartData(sortedChartData);
   };
+  
+  
 
   const getRandomColors = (length) => {
     const colors = [];
