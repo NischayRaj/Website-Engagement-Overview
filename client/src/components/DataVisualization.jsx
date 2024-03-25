@@ -145,7 +145,7 @@ const DataVisualization = () => {
         labels: {
           padding: 10,
           font: {
-            size: 10, // Adjust font size for legend labels
+            size: 6, // Adjust font size for legend labels
           },// Add padding between legend items
         },
       },
@@ -168,14 +168,14 @@ const DataVisualization = () => {
       x: {
         ticks: {
           font: {
-            size: 10, // Initial font size for labels
+            size: 6, // Initial font size for labels
           },
         },
       },
       y: {
         ticks: {
           font: {
-            size: 10, // Initial font size for labels
+            size: 7, // Initial font size for labels
           },
         },
       },
