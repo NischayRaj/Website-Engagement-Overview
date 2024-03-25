@@ -5,7 +5,7 @@ const metricsRouter = require("./routes/metricsRouter");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const mongoURI = "mongodb://localhost:27017/websiteEngagement"; // Change this to your MongoDB URI
+const mongoURI = "mongodb+srv://Web-Overview:XboX21Me113@cluster0.qos0ya2.mongodb.net/Web-overview?retryWrites=true&w=majority&appName=Cluster0"; // Change this to your MongoDB URI
 
 // Connect to MongoDB
 mongoose

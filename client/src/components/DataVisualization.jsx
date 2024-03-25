@@ -29,7 +29,7 @@ const DataVisualization = () => {
           // return dateParts[0];
           const newData = dateParts[0];
           const newdateParts = newData.split('-');
-          const formattedDate = `${newdateParts[2]}-${newdateParts[1]}-${newdateParts[0]}`;
+          const formattedDate = `${newdateParts[2]}-${newdateParts[1]}-${newdateParts[0].slice(2)}`;
           return formattedDate;
         }
         return ''; // Return an empty string if date is undefined
@@ -145,7 +145,7 @@ const DataVisualization = () => {
         labels: {
           padding: 10,
           font: {
-            size: 6, // Adjust font size for legend labels
+            size: 8, // Adjust font size for legend labels
           },// Add padding between legend items
         },
       },
@@ -168,18 +168,19 @@ const DataVisualization = () => {
       x: {
         ticks: {
           font: {
-            size: 6, // Initial font size for labels
+            size: 6.5, // Initial font size for labels
           },
         },
       },
       y: {
         ticks: {
           font: {
-            size: 7, // Initial font size for labels
+            size: 9, // Initial font size for labels
           },
         },
       },
     },
+
   };
 
   return (
