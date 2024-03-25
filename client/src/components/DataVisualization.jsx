@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Typography, Box, Button } from '@mui/material';
 import Chart from 'chart.js/auto';
 import _ from 'lodash';
+import '../styles/Data.css'
 
 const DataVisualization = () => {
   const { metrics } = useContext(MetricsContext);
@@ -25,10 +26,11 @@ const DataVisualization = () => {
         if (metric.date) {
           // Extract only the date part from the full date-time string
           const dateParts = metric.date.split('T');
+          // return dateParts[0];
           const newData = dateParts[0];
           const newdateParts = newData.split('-');
-     const formattedDate = `${newdateParts[2]}-${newdateParts[1]}-${newdateParts[0]}`;
-     return formattedDate;
+          const formattedDate = `${newdateParts[2]}-${newdateParts[1]}-${newdateParts[0]}`;
+          return formattedDate;
         }
         return ''; // Return an empty string if date is undefined
       });
@@ -88,14 +90,30 @@ const DataVisualization = () => {
     // Sort the labels array using lodash for each dataset
     _.forEach(sortedChartData, (chart) => {
       if (chart && chart.labels) {
-        chart.labels = _.sortBy(chart.labels, date => new Date(date));
+          chart.labels.sort((a, b) => {
+              const [dayA, monthA, yearA] = a.split('-').map(Number);
+              const [dayB, monthB, yearB] = b.split('-').map(Number);
+              
+              // First, compare years
+              if (yearA !== yearB) {
+                  return yearA - yearB;
+              }
+              // If years are equal, compare months
+              if (monthA !== monthB) {
+                  return monthA - monthB;
+              }
+              // If months are equal, compare days
+              return dayA - dayB;
+          });
       }
-    });
+  });
+  
   
     // Sort the data arrays for each dataset based on the sorted labels
     _.forEach(sortedChartData, (chart) => {
       if (chart && chart.datasets) {
         chart.datasets.forEach(dataset => {
+          // console.log(dataset.data);
           dataset.data = _.sortBy(dataset.data, dataPoint => dataPoint);
         });
       }
@@ -119,13 +137,16 @@ const DataVisualization = () => {
     plugins: {
       title: {
         display: true,
-        text: 'Bounce Rate', // Add your chart title here
+        text: 'Bounce Rate', 
       },
       legend: {
-        position: 'right', // Adjust the legend position here
-        align: 'start', // Align the legend items to start from the top
+        position: 'bottom', // Adjust the legend position here
+        align: 'middle', // Align the legend items to start from the top
         labels: {
-          padding: 20, // Add padding between legend items
+          padding: 10,
+          font: {
+            size: 10, // Adjust font size for legend labels
+          },// Add padding between legend items
         },
       },
     },
@@ -134,25 +155,58 @@ const DataVisualization = () => {
         borderWidth: 0,
       },
     },
+    
     rotation: 0.5 * Math.PI, // Adjust the starting angle here
+  };
+
+
+
+  const chartOptions = {
+    // Other options...
+    scales: {
+      // Configure your scales here...
+      x: {
+        ticks: {
+          font: {
+            size: 10, // Initial font size for labels
+          },
+        },
+      },
+      y: {
+        ticks: {
+          font: {
+            size: 10, // Initial font size for labels
+          },
+        },
+      },
+    },
   };
 
   return (
     <Box mt={4}>
       {chartData ? (
-        <Box>
-          <Button onClick={sortDataByDate} variant="contained" color="primary" mb={2}>
+        <Box className="chart-container">
+          <Button onClick={sortDataByDate} variant="contained" color="primary" mb={2} sx={{
+          fontSize: '1rem', // Default font size
+          '@media (min-width: 768px) and (max-width: 1024px)': {
+            fontSize: '0.8rem', // Font size for tablets
+          },
+          '@media (max-width: 767px)': {
+            fontSize: '0.5rem', // Font size for mobile devices
+          },
+        }}>
             Sort by Date
           </Button>
-          <Bar data={chartData.pageViewsChart} />
-          <Pie data={chartData.bounceRateChart} options={pieChartOptions} />
-          <Line data={chartData.avgSessionDurationChart} />
+            <Bar data={chartData.pageViewsChart} options={chartOptions} className="chart-item" />
+            <Pie data={chartData.bounceRateChart} options={pieChartOptions} className="chart-item" />
+            <Line data={chartData.avgSessionDurationChart} options={chartOptions} className="chart-item" />
         </Box>
       ) : (
-        <div>Loading...</div>
+        <div className="loading-message">Loading...</div>
       )}
     </Box>
   );
+  
 };
 
 export default DataVisualization;

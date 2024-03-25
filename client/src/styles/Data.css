@@ -1,0 +1,40 @@
+/* styles/DataVisualization.css */
+
+/* Style for the button */
+.button-container {
+  margin-bottom: 20px;
+}
+
+.sort-button {
+  background-color: #1976d2; /* Default background color */
+  color: white; /* Default text color */
+  transition: background-color 0.3s ease; /* Smooth transition effect */
+  /* Add more styles as needed */
+}
+
+/* Hover effect for the button */
+.sort-button:hover {
+  background-color: #1565c0; /* New background color on hover */
+  /* Add more styles as needed */
+}
+
+/* Style for the charts */
+.chart-container {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+/* Style for the legend */
+.legend-container {
+  margin-bottom: 20px;
+}
+
+/* Style for the loading message */
+.loading-message {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
